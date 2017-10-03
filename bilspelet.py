@@ -29,8 +29,11 @@ position_y = height / 2.0
 rotate_left = False
 rotate_right = False
 
-car_speed = 200.0
+car_speed = 0.0
 rotate_speed = 200.0
+
+friction = 2.0
+acceleration = 1000.0
 
 while 1:
     this_time = pygame.time.get_ticks()
@@ -68,8 +71,14 @@ while 1:
     picture_index = int(direction * MAX_PICS / 360.0)
     angle = (picture_index / MAX_PICS) * 2.0 * math.pi
     if pedal_down:
-        position_x = position_x + car_speed * delta_time * math.cos(angle)
-        position_y = position_y - car_speed * delta_time * math.sin(angle)
+        car_speed += acceleration * delta_time
+    car_speed -= car_speed * friction * delta_time
+
+    if car_speed < 0.0:
+        car_speed = 0.0
+
+    position_x = position_x + car_speed * delta_time * math.cos(angle)
+    position_y = position_y - car_speed * delta_time * math.sin(angle)
 
     position = (int(position_x), int(position_y))
     rect = car_rct[picture_index]
