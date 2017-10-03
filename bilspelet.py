@@ -24,6 +24,8 @@ pedal_down = False
 direction = 0.0
 position_x = width / 2.0
 position_y = height / 2.0
+rotate_left = False
+rotate_right = False
 
 while 1:
     for event in pygame.event.get():
@@ -32,11 +34,23 @@ while 1:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 pedal_down = True
+            elif event.key == pygame.K_LEFT:
+                rotate_left = True
+            elif event.key == pygame.K_RIGHT:
+                rotate_right = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 pedal_down = False
+            elif event.key == pygame.K_LEFT:
+                rotate_left = False
+            elif event.key == pygame.K_RIGHT:
+                rotate_right = False
 
-    direction = direction + 1.0
+    if rotate_left:
+        direction = direction + 0.5
+    elif rotate_right:
+        direction = direction - 0.5
+
     if direction >= 360.0:
         direction -= 360.0
     elif direction < 0.0:
