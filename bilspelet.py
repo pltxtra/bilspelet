@@ -47,6 +47,23 @@ rotate_speed = 200.0
 friction = 2.0
 acceleration = 1000.0
 
+map = [
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+]
+
 while 1:
     this_time = pygame.time.get_ticks()
     delta_time = (this_time - last_time) / 1000.0
@@ -98,7 +115,10 @@ while 1:
 
     screen.fill(black)
 
-    screen.blit(map_pieces[1], map_rect)
+    for y in range(0, 12):
+        for x in range(0, 16):
+            map_rect.topleft = (x * 64, y * 64)
+            screen.blit(map_pieces[map[y * 16 + x]], map_rect)
 
     screen.blit(car_pic[picture_index], rect)
     pygame.display.flip()
