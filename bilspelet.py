@@ -7,6 +7,18 @@ black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
 
+small_map_pieces = [
+    pygame.image.load("black.png"),
+    pygame.image.load("green.png"),
+    ]
+
+map_pieces = []
+for small_m in small_map_pieces:
+    m = pygame.transform.scale2x(small_m)
+    map_pieces.append(m)
+
+map_rect = map_pieces[0].get_rect()
+
 car = pygame.image.load("car.png")
 car = pygame.transform.scale2x(car)
 
@@ -85,5 +97,8 @@ while 1:
     rect.center = position
 
     screen.fill(black)
+
+    screen.blit(map_pieces[1], map_rect)
+
     screen.blit(car_pic[picture_index], rect)
     pygame.display.flip()
