@@ -65,6 +65,9 @@ map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 ]
 
+max_x = 16.0 * 64.0
+max_y = 12.0 * 64.0
+
 while 1:
     this_time = pygame.time.get_ticks()
     delta_time = (this_time - last_time) / 1000.0
@@ -118,6 +121,15 @@ while 1:
 
     position_x = position_x + car_speed * delta_time * math.cos(angle)
     position_y = position_y - car_speed * delta_time * math.sin(angle)
+
+    if position_x < 0:
+        position_x = 0
+    elif position_x > max_x:
+        position_x = max_x
+    if position_y < 0:
+        position_y = 0
+    elif position_y > max_y:
+        position_y = max_y
 
     position = (int(position_x), int(position_y))
     rect = car_rct[picture_index]
