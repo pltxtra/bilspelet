@@ -98,6 +98,15 @@ while 1:
     elif direction < 0.0:
         direction += 360
 
+    map_position_x = int(position_x / 64.0)
+    map_position_y = int(position_y / 64.0)
+    map_index = (map_position_y * 16 + map_position_x) % (len(map))
+    map_type = map[map_index]
+    if map_type == 0 or map_type == 2:
+        friction = 2.0
+    else:
+        friction = 10.0
+
     picture_index = int(direction * MAX_PICS / 360.0)
     angle = (picture_index / MAX_PICS) * 2.0 * math.pi
     if pedal_down:
