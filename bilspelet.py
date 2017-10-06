@@ -72,6 +72,10 @@ max_y = 12.0 * 64.0
 lap = 0
 max_lap = 3
 
+last_map_position = (0, 0)
+goal_position = [(7, 8), (7, 9), (7, 10)]
+start_position = [(8, 8), (8, 9), (8, 10)]
+
 while 1:
     this_time = pygame.time.get_ticks()
     delta_time = (this_time - last_time) / 1000.0
@@ -113,6 +117,11 @@ while 1:
         friction = 2.0
     else:
         friction = 10.0
+
+    map_position = (map_position_x, map_position_y)
+    if (map_position in start_position) and (last_map_position in goal_position):
+        lap += 1
+    last_map_position = map_position
 
     picture_index = int(direction * MAX_PICS / 360.0)
     angle = (picture_index / MAX_PICS) * 2.0 * math.pi
