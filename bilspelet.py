@@ -1,6 +1,7 @@
 import sys, pygame
 import math
 pygame.init()
+font = pygame.font.Font(None, 72)
 
 size = width, height = 1024, 768
 black = 0, 0, 0
@@ -67,6 +68,9 @@ map = [
 
 max_x = 16.0 * 64.0
 max_y = 12.0 * 64.0
+
+lap = 0
+max_lap = 3
 
 while 1:
     this_time = pygame.time.get_ticks()
@@ -143,4 +147,10 @@ while 1:
             screen.blit(map_pieces[map[y * 16 + x]], map_rect)
 
     screen.blit(car_pic[picture_index], rect)
+
+    text = font.render("Lap {} / {}".format(lap, max_lap), True, (128, 128, 0))
+    screen.blit(text,
+                (512 - text.get_width() // 2,
+                 384 - text.get_height()))
+
     pygame.display.flip()
