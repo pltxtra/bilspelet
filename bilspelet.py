@@ -37,8 +37,8 @@ last_time = pygame.time.get_ticks()
 pedal_down = False
 
 direction = 0.0
-position_x = width / 2.0
-position_y = height / 2.0
+position_x = 6.0 * 64.0 + 32.0
+position_y = 8.0 * 64.0 + 32.0
 rotate_left = False
 rotate_right = False
 
