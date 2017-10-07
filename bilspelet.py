@@ -91,6 +91,14 @@ def update_car_map_position():
     map_index = (map_position_y * 16 + map_position_x) % (len(map))
     map_position = (map_position_x, map_position_y)
 
+def update_car_friction():
+    global friction
+    map_type = map[map_index]
+    if map_type == 0 or map_type == 2:
+        friction = 2.0
+    else:
+        friction = 10.0
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -128,12 +136,7 @@ while 1:
     check_events()
     update_car_direction()
     update_car_map_position()
-
-    map_type = map[map_index]
-    if map_type == 0 or map_type == 2:
-        friction = 2.0
-    else:
-        friction = 10.0
+    update_car_friction()
 
     if checkpoint_ok and (map_position in start_position) and (last_map_position in goal_position):
         lap += 1
