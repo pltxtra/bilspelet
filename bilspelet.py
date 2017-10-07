@@ -108,6 +108,15 @@ def update_lap_position():
         checkpoint_ok = True
     last_map_position = map_position
 
+def update_car_speed():
+    global car_speed
+    if pedal_down:
+        car_speed += acceleration * delta_time
+    car_speed -= car_speed * friction * delta_time
+
+    if car_speed < 0.0:
+        car_speed = 0.0
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -147,16 +156,10 @@ while 1:
     update_car_map_position()
     update_car_friction()
     update_lap_position()
+    update_car_speed()
 
     picture_index = int(direction * MAX_PICS / 360.0)
     angle = (picture_index / MAX_PICS) * 2.0 * math.pi
-    if pedal_down:
-        car_speed += acceleration * delta_time
-    car_speed -= car_speed * friction * delta_time
-
-    if car_speed < 0.0:
-        car_speed = 0.0
-
     position_x = position_x + car_speed * delta_time * math.cos(angle)
     position_y = position_y - car_speed * delta_time * math.sin(angle)
 
