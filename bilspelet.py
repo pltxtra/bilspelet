@@ -134,6 +134,12 @@ def update_car_position():
 
     position = (int(position_x), int(position_y))
 
+def draw_car():
+    picture_index = int(direction * MAX_PICS / 360.0)
+    rect = car_rct[picture_index]
+    rect.center = position
+    screen.blit(car_pic[picture_index], rect)
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -176,10 +182,6 @@ while 1:
     update_car_speed()
     update_car_position()
 
-    picture_index = int(direction * MAX_PICS / 360.0)
-    rect = car_rct[picture_index]
-    rect.center = position
-
     screen.fill(black)
 
     for y in range(0, 12):
@@ -187,7 +189,7 @@ while 1:
             map_rect.topleft = (x * 64, y * 64)
             screen.blit(map_pieces[map[y * 16 + x]], map_rect)
 
-    screen.blit(car_pic[picture_index], rect)
+    draw_car()
 
     text = font.render("Lap {} / {}".format(lap, max_lap), True, (128, 128, 0))
     screen.blit(text,
