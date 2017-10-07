@@ -70,6 +70,27 @@ def check_events():
             elif event.key == pygame.K_RIGHT:
                 rotate_right = False
 
+def update_car_direction():
+    global direction, rotate_right, rotate_left
+    global rotate_speed, delta_time
+
+    if rotate_left:
+        direction = direction + rotate_speed * delta_time
+    elif rotate_right:
+        direction = direction - rotate_speed * delta_time
+
+    if direction >= 360.0:
+        direction -= 360.0
+    elif direction < 0.0:
+        direction += 360
+
+def update_car_map_position():
+    global map_position_x, map_position_y, map_position, map_index
+    map_position_x = int(position_x / 64.0)
+    map_position_y = int(position_y / 64.0)
+    map_index = (map_position_y * 16 + map_position_x) % (len(map))
+    map_position = (map_position_x, map_position_y)
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -105,27 +126,15 @@ while 1:
     last_time = this_time
 
     check_events()
+    update_car_direction()
+    update_car_map_position()
 
-    if rotate_left:
-        direction = direction + rotate_speed * delta_time
-    elif rotate_right:
-        direction = direction - rotate_speed * delta_time
-
-    if direction >= 360.0:
-        direction -= 360.0
-    elif direction < 0.0:
-        direction += 360
-
-    map_position_x = int(position_x / 64.0)
-    map_position_y = int(position_y / 64.0)
-    map_index = (map_position_y * 16 + map_position_x) % (len(map))
     map_type = map[map_index]
     if map_type == 0 or map_type == 2:
         friction = 2.0
     else:
         friction = 10.0
 
-    map_position = (map_position_x, map_position_y)
     if checkpoint_ok and (map_position in start_position) and (last_map_position in goal_position):
         lap += 1
         checkpoint_ok = False
