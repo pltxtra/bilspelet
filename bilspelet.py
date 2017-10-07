@@ -71,10 +71,12 @@ max_y = 12.0 * 64.0
 
 lap = 0
 max_lap = 3
+checkpoint_ok = True
 
 last_map_position = (0, 0)
 goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
+checkpoint_position = [(7, 1), (7, 2), (7, 3)]
 
 while 1:
     this_time = pygame.time.get_ticks()
@@ -119,8 +121,11 @@ while 1:
         friction = 10.0
 
     map_position = (map_position_x, map_position_y)
-    if (map_position in start_position) and (last_map_position in goal_position):
+    if checkpoint_ok and (map_position in start_position) and (last_map_position in goal_position):
         lap += 1
+        checkpoint_ok = False
+    elif map_position in checkpoint_position:
+        checkpoint_ok = True
     last_map_position = map_position
 
     picture_index = int(direction * MAX_PICS / 360.0)
