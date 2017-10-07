@@ -35,6 +35,22 @@ for x in range(0, MAX_PICS):
 
 last_time = pygame.time.get_ticks()
 
+class Car:
+    def __init__(self):
+        self.pedal_down = False
+        self.direction = 0.0
+        self.position_x = 6.0 * 64.0 + 32.0
+        self.position_y = 8.0 * 64.0 + 32.0
+        self.rotate_left = False
+        self.rotate_right = False
+        self.speed = 0.0
+        self.rotate_speed = 200.0
+        self.friction = 2.0
+        self.acceleration = 1000.0
+        self.lap = 0
+        self.checkpoint_ok = True
+        self.last_map_position = (0, 0)
+
 pedal_down = False
 
 direction = 0.0
@@ -180,6 +196,8 @@ last_map_position = (0, 0)
 goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
 checkpoint_position = [(7, 1), (7, 2), (7, 3)]
+
+car = Car()
 
 while 1:
     this_time = pygame.time.get_ticks()
