@@ -146,6 +146,12 @@ def draw_car():
     rect.center = position
     screen.blit(car_pic[picture_index], rect)
 
+def draw_text():
+    text = font.render("Lap {} / {}".format(lap, max_lap), True, (128, 128, 0))
+    screen.blit(text,
+                (512 - text.get_width() // 2,
+                 384 - text.get_height()))
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -191,10 +197,6 @@ while 1:
     screen.fill(black)
     draw_map()
     draw_car()
-
-    text = font.render("Lap {} / {}".format(lap, max_lap), True, (128, 128, 0))
-    screen.blit(text,
-                (512 - text.get_width() // 2,
-                 384 - text.get_height()))
+    draw_text()
 
     pygame.display.flip()
