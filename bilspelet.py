@@ -179,7 +179,7 @@ goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
 checkpoint_position = [(7, 1), (7, 2), (7, 3)]
 
-car = Car("car.png", (6, 8), pygame.K_SPACE, pygame.K_LEFT, pygame.K_RIGHT)
+car = Car("car.png", (6, 8), pygame.K_RCTRL, pygame.K_LEFT, pygame.K_RIGHT)
 
 while 1:
     this_time = pygame.time.get_ticks()
