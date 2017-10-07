@@ -65,7 +65,7 @@ rotate_speed = 200.0
 friction = 2.0
 acceleration = 1000.0
 
-def check_events():
+def check_events(car):
     global pedal_down, rotate_right, rotate_left
 
     for event in pygame.event.get():
@@ -86,7 +86,7 @@ def check_events():
             elif event.key == pygame.K_RIGHT:
                 rotate_right = False
 
-def update_car_direction():
+def update_car_direction(car):
     global direction, rotate_right, rotate_left
     global rotate_speed, delta_time
 
@@ -100,14 +100,14 @@ def update_car_direction():
     elif direction < 0.0:
         direction += 360
 
-def update_car_map_position():
+def update_car_map_position(car):
     global map_position_x, map_position_y, map_position, map_index
     map_position_x = int(position_x / 64.0)
     map_position_y = int(position_y / 64.0)
     map_index = (map_position_y * 16 + map_position_x) % (len(map))
     map_position = (map_position_x, map_position_y)
 
-def update_car_friction():
+def update_car_friction(car):
     global friction
     map_type = map[map_index]
     if map_type == 0 or map_type == 2:
@@ -115,7 +115,7 @@ def update_car_friction():
     else:
         friction = 10.0
 
-def update_lap_position():
+def update_lap_position(car):
     global lap, checkpoint_ok, last_map_position
     if checkpoint_ok and (map_position in start_position) and (last_map_position in goal_position):
         lap += 1
@@ -124,7 +124,7 @@ def update_lap_position():
         checkpoint_ok = True
     last_map_position = map_position
 
-def update_car_speed():
+def update_car_speed(car):
     global car_speed
     if pedal_down:
         car_speed += acceleration * delta_time
@@ -133,7 +133,7 @@ def update_car_speed():
     if car_speed < 0.0:
         car_speed = 0.0
 
-def update_car_position():
+def update_car_position(car):
     global position_x, position_y, position
     radians = direction * math.pi / 180.0
     position_x = position_x + car_speed * delta_time * math.cos(radians)
@@ -156,13 +156,13 @@ def draw_map():
             map_rect.topleft = (x * 64, y * 64)
             screen.blit(map_pieces[map[y * 16 + x]], map_rect)
 
-def draw_car():
+def draw_car(car):
     picture_index = int(direction * MAX_PICS / 360.0)
     rect = car_rct[picture_index]
     rect.center = position
     screen.blit(car_pic[picture_index], rect)
 
-def draw_text():
+def draw_text(car):
     text = font.render("Lap {} / {}".format(lap, max_lap), True, (128, 128, 0))
     screen.blit(text,
                 (512 - text.get_width() // 2,
@@ -204,17 +204,17 @@ while 1:
     delta_time = (this_time - last_time) / 1000.0
     last_time = this_time
 
-    check_events()
-    update_car_direction()
-    update_car_map_position()
-    update_car_friction()
-    update_lap_position()
-    update_car_speed()
-    update_car_position()
+    check_events(car)
+    update_car_direction(car)
+    update_car_map_position(car)
+    update_car_friction(car)
+    update_lap_position(car)
+    update_car_speed(car)
+    update_car_position(car)
 
     screen.fill(black)
     draw_map()
-    draw_car()
-    draw_text()
+    draw_car(car)
+    draw_text(car)
 
     pygame.display.flip()
