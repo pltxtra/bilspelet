@@ -37,7 +37,7 @@ def load_car_picture(filename):
 last_time = pygame.time.get_ticks()
 
 class Car:
-    def __init__(self, filename, start_at_map):
+    def __init__(self, filename, start_at_map, gas_key, left_key, right_key):
         self.pedal_down = False
         self.direction = 0.0
         self.position_x = start_at_map[0] * 64.0 + 32.0
@@ -51,6 +51,9 @@ class Car:
         self.lap = 0
         self.checkpoint_ok = True
         self.last_map_position = (0, 0)
+        self.gas_key = gas_key
+        self.left_key = left_key
+        self.right_key = right_key
         (self.pic, self.rct) = load_car_picture(filename)
 
 def check_events(car):
@@ -62,18 +65,18 @@ def check_events(car):
 
 def handle_car_event(car, event):
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_SPACE:
+        if event.key == car.gas_key:
             car.pedal_down = True
-        elif event.key == pygame.K_LEFT:
+        elif event.key == car.left_key:
             car.rotate_left = True
-        elif event.key == pygame.K_RIGHT:
+        elif event.key == car.right_key:
             car.rotate_right = True
     elif event.type == pygame.KEYUP:
-        if event.key == pygame.K_SPACE:
+        if event.key == car.gas_key:
             car.pedal_down = False
-        elif event.key == pygame.K_LEFT:
+        elif event.key == car.left_key:
             car.rotate_left = False
-        elif event.key == pygame.K_RIGHT:
+        elif event.key == car.right_key:
             car.rotate_right = False
 
 def update_car_direction(car):
@@ -176,7 +179,7 @@ goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
 checkpoint_position = [(7, 1), (7, 2), (7, 3)]
 
-car = Car("car.png", (6, 8))
+car = Car("car.png", (6, 8), pygame.K_SPACE, pygame.K_LEFT, pygame.K_RIGHT)
 
 while 1:
     this_time = pygame.time.get_ticks()
