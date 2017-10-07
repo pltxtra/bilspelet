@@ -37,11 +37,11 @@ def load_car_picture(filename):
 last_time = pygame.time.get_ticks()
 
 class Car:
-    def __init__(self, filename):
+    def __init__(self, filename, start_at_map):
         self.pedal_down = False
         self.direction = 0.0
-        self.position_x = 6.0 * 64.0 + 32.0
-        self.position_y = 8.0 * 64.0 + 32.0
+        self.position_x = start_at_map[0] * 64.0 + 32.0
+        self.position_y = start_at_map[1] * 64.0 + 32.0
         self.rotate_left = False
         self.rotate_right = False
         self.speed = 0.0
@@ -172,7 +172,7 @@ goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
 checkpoint_position = [(7, 1), (7, 2), (7, 3)]
 
-car = Car("car.png")
+car = Car("car.png", (6, 8))
 
 while 1:
     this_time = pygame.time.get_ticks()
