@@ -34,12 +34,10 @@ def load_car_picture(filename):
         rct.append(rotated.get_rect())
     return (pic, rct)
 
-(car_pic, car_rct) = load_car_picture("car.png")
-
 last_time = pygame.time.get_ticks()
 
 class Car:
-    def __init__(self):
+    def __init__(self, filename):
         self.pedal_down = False
         self.direction = 0.0
         self.position_x = 6.0 * 64.0 + 32.0
@@ -53,6 +51,7 @@ class Car:
         self.lap = 0
         self.checkpoint_ok = True
         self.last_map_position = (0, 0)
+        (self.pic, self.rct) = load_car_picture(filename)
 
 def check_events(car):
     for event in pygame.event.get():
@@ -137,9 +136,9 @@ def draw_map():
 
 def draw_car(car):
     picture_index = int(car.direction * MAX_PICS / 360.0)
-    rect = car_rct[picture_index]
+    rect = car.rct[picture_index]
     rect.center = car.position
-    screen.blit(car_pic[picture_index], rect)
+    screen.blit(car.pic[picture_index], rect)
 
 def draw_text(car):
     text = font.render("Lap {} / {}".format(car.lap, max_lap), True, (128, 128, 0))
@@ -173,7 +172,7 @@ goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
 checkpoint_position = [(7, 1), (7, 2), (7, 3)]
 
-car = Car()
+car = Car("car.png")
 
 while 1:
     this_time = pygame.time.get_ticks()
