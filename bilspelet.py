@@ -99,6 +99,15 @@ def update_car_friction():
     else:
         friction = 10.0
 
+def update_lap_position():
+    global lap, checkpoint_ok, last_map_position
+    if checkpoint_ok and (map_position in start_position) and (last_map_position in goal_position):
+        lap += 1
+        checkpoint_ok = False
+    elif map_position in checkpoint_position:
+        checkpoint_ok = True
+    last_map_position = map_position
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -137,13 +146,7 @@ while 1:
     update_car_direction()
     update_car_map_position()
     update_car_friction()
-
-    if checkpoint_ok and (map_position in start_position) and (last_map_position in goal_position):
-        lap += 1
-        checkpoint_ok = False
-    elif map_position in checkpoint_position:
-        checkpoint_ok = True
-    last_map_position = map_position
+    update_lap_position()
 
     picture_index = int(direction * MAX_PICS / 360.0)
     angle = (picture_index / MAX_PICS) * 2.0 * math.pi
