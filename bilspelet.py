@@ -57,20 +57,24 @@ def check_events(car):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                car.pedal_down = True
-            elif event.key == pygame.K_LEFT:
-                car.rotate_left = True
-            elif event.key == pygame.K_RIGHT:
-                car.rotate_right = True
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                car.pedal_down = False
-            elif event.key == pygame.K_LEFT:
-                car.rotate_left = False
-            elif event.key == pygame.K_RIGHT:
-                car.rotate_right = False
+        else:
+            handle_car_event(car, event)
+
+def handle_car_event(car, event):
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_SPACE:
+            car.pedal_down = True
+        elif event.key == pygame.K_LEFT:
+            car.rotate_left = True
+        elif event.key == pygame.K_RIGHT:
+            car.rotate_right = True
+    elif event.type == pygame.KEYUP:
+        if event.key == pygame.K_SPACE:
+            car.pedal_down = False
+        elif event.key == pygame.K_LEFT:
+            car.rotate_left = False
+        elif event.key == pygame.K_RIGHT:
+            car.rotate_right = False
 
 def update_car_direction(car):
     if car.rotate_left:
