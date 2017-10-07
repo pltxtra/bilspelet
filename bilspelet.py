@@ -21,17 +21,20 @@ for small_m in small_map_pieces:
 
 map_rect = map_pieces[0].get_rect()
 
-car = pygame.image.load("car.png")
-car = pygame.transform.scale2x(car)
-
 MAX_PICS = 48
 
-car_pic = []
-car_rct = []
-for x in range(0, MAX_PICS):
-    rotated = pygame.transform.rotate(car, 360 * (x / MAX_PICS))
-    car_pic.append(rotated)
-    car_rct.append(rotated.get_rect())
+def load_car_picture(filename):
+    picture = pygame.image.load(filename)
+    picture = pygame.transform.scale2x(picture)
+    pic = []
+    rct = []
+    for x in range(0, MAX_PICS):
+        rotated = pygame.transform.rotate(picture, 360 * (x / MAX_PICS))
+        pic.append(rotated)
+        rct.append(rotated.get_rect())
+    return (pic, rct)
+
+(car_pic, car_rct) = load_car_picture("car.png")
 
 last_time = pygame.time.get_ticks()
 
