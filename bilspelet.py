@@ -49,6 +49,27 @@ rotate_speed = 200.0
 friction = 2.0
 acceleration = 1000.0
 
+def check_events():
+    global pedal_down, rotate_right, rotate_left
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                pedal_down = True
+            elif event.key == pygame.K_LEFT:
+                rotate_left = True
+            elif event.key == pygame.K_RIGHT:
+                rotate_right = True
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
+                pedal_down = False
+            elif event.key == pygame.K_LEFT:
+                rotate_left = False
+            elif event.key == pygame.K_RIGHT:
+                rotate_right = False
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -83,23 +104,7 @@ while 1:
     delta_time = (this_time - last_time) / 1000.0
     last_time = this_time
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                pedal_down = True
-            elif event.key == pygame.K_LEFT:
-                rotate_left = True
-            elif event.key == pygame.K_RIGHT:
-                rotate_right = True
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                pedal_down = False
-            elif event.key == pygame.K_LEFT:
-                rotate_left = False
-            elif event.key == pygame.K_RIGHT:
-                rotate_right = False
+    check_events()
 
     if rotate_left:
         direction = direction + rotate_speed * delta_time
