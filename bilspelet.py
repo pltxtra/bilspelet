@@ -117,6 +117,23 @@ def update_car_speed():
     if car_speed < 0.0:
         car_speed = 0.0
 
+def update_car_position():
+    global position_x, position_y, position
+    radians = direction * math.pi / 180.0
+    position_x = position_x + car_speed * delta_time * math.cos(radians)
+    position_y = position_y - car_speed * delta_time * math.sin(radians)
+
+    if position_x < 0:
+        position_x = 0
+    elif position_x > max_x:
+        position_x = max_x
+    if position_y < 0:
+        position_y = 0
+    elif position_y > max_y:
+        position_y = max_y
+
+    position = (int(position_x), int(position_y))
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -157,22 +174,9 @@ while 1:
     update_car_friction()
     update_lap_position()
     update_car_speed()
+    update_car_position()
 
     picture_index = int(direction * MAX_PICS / 360.0)
-    angle = (picture_index / MAX_PICS) * 2.0 * math.pi
-    position_x = position_x + car_speed * delta_time * math.cos(angle)
-    position_y = position_y - car_speed * delta_time * math.sin(angle)
-
-    if position_x < 0:
-        position_x = 0
-    elif position_x > max_x:
-        position_x = max_x
-    if position_y < 0:
-        position_y = 0
-    elif position_y > max_y:
-        position_y = max_y
-
-    position = (int(position_x), int(position_y))
     rect = car_rct[picture_index]
     rect.center = position
 
