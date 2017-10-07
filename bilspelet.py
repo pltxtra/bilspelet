@@ -56,12 +56,13 @@ class Car:
         self.right_key = right_key
         (self.pic, self.rct) = load_car_picture(filename)
 
-def check_events(car):
+def check_events(cars):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         else:
-            handle_car_event(car, event)
+            for car in cars:
+                handle_car_event(car, event)
 
 def handle_car_event(car, event):
     if event.type == pygame.KEYDOWN:
@@ -179,24 +180,29 @@ goal_position = [(7, 8), (7, 9), (7, 10)]
 start_position = [(8, 8), (8, 9), (8, 10)]
 checkpoint_position = [(7, 1), (7, 2), (7, 3)]
 
-car = Car("car.png", (6, 8), pygame.K_RCTRL, pygame.K_LEFT, pygame.K_RIGHT)
+cars = [
+    Car("car.png", (6, 8), pygame.K_RCTRL, pygame.K_LEFT, pygame.K_RIGHT),
+    Car("car_2.png", (6, 9), pygame.K_LCTRL, pygame.K_q, pygame.K_e),
+    ]
 
 while 1:
     this_time = pygame.time.get_ticks()
     delta_time = (this_time - last_time) / 1000.0
     last_time = this_time
 
-    check_events(car)
-    update_car_direction(car)
-    update_car_map_position(car)
-    update_car_friction(car)
-    update_lap_position(car)
-    update_car_speed(car)
-    update_car_position(car)
+    check_events(cars)
 
     screen.fill(black)
     draw_map()
-    draw_car(car)
-    draw_text(car)
+
+    for car in cars:
+        update_car_direction(car)
+        update_car_map_position(car)
+        update_car_friction(car)
+        update_lap_position(car)
+        update_car_speed(car)
+        update_car_position(car)
+        draw_car(car)
+        draw_text(car)
 
     pygame.display.flip()
