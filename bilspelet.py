@@ -56,29 +56,27 @@ class Car:
         self.right_key = right_key
         (self.pic, self.rct) = load_car_picture(filename)
 
-def check_events(cars):
-    for event in pygame.event.get():
+def check_events(events):
+    for event in events:
         if event.type == pygame.QUIT:
             sys.exit()
-        else:
-            for car in cars:
-                handle_car_event(car, event)
 
-def handle_car_event(car, event):
-    if event.type == pygame.KEYDOWN:
-        if event.key == car.gas_key:
-            car.pedal_down = True
-        elif event.key == car.left_key:
-            car.rotate_left = True
-        elif event.key == car.right_key:
-            car.rotate_right = True
-    elif event.type == pygame.KEYUP:
-        if event.key == car.gas_key:
-            car.pedal_down = False
-        elif event.key == car.left_key:
-            car.rotate_left = False
-        elif event.key == car.right_key:
-            car.rotate_right = False
+def handle_car_events(car, events):
+    for event in events:
+        if event.type == pygame.KEYDOWN:
+            if event.key == car.gas_key:
+                car.pedal_down = True
+            elif event.key == car.left_key:
+                car.rotate_left = True
+            elif event.key == car.right_key:
+                car.rotate_right = True
+        elif event.type == pygame.KEYUP:
+            if event.key == car.gas_key:
+                car.pedal_down = False
+            elif event.key == car.left_key:
+                car.rotate_left = False
+            elif event.key == car.right_key:
+                car.rotate_right = False
 
 def update_car_direction(car):
     if car.rotate_left:
@@ -190,13 +188,15 @@ while 1:
     delta_time = (this_time - last_time) / 1000.0
     last_time = this_time
 
-    check_events(cars)
+    events = pygame.event.get()
+    check_events(events)
 
     screen.fill(black)
     draw_map()
 
     offset = 0
     for car in cars:
+        handle_car_events(car, events)
         update_car_direction(car)
         update_car_map_position(car)
         update_car_friction(car)
