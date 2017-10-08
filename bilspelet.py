@@ -38,27 +38,34 @@ last_time = pygame.time.get_ticks()
 
 class Car:
     def __init__(self, filename, start_at_map, gas_key, left_key, right_key):
-        self.pedal_down = False
-        self.direction = 0.0
-        self.position_x = start_at_map[0] * 64.0 + 32.0
-        self.position_y = start_at_map[1] * 64.0 + 32.0
-        self.rotate_left = False
-        self.rotate_right = False
-        self.speed = 0.0
-        self.rotate_speed = 200.0
-        self.friction = 2.0
-        self.acceleration = 1000.0
-        self.lap = 0
-        self.checkpoint_ok = True
-        self.last_map_position = (0, 0)
+        self.start_at_map = start_at_map
         self.gas_key = gas_key
         self.left_key = left_key
         self.right_key = right_key
         (self.pic, self.rct) = load_car_picture(filename)
 
+        restart_car(self)
+
+def restart_car(car):
+    car.pedal_down = False
+    car.direction = 0.0
+    car.position_x = car.start_at_map[0] * 64.0 + 32.0
+    car.position_y = car.start_at_map[1] * 64.0 + 32.0
+    car.rotate_left = False
+    car.rotate_right = False
+    car.speed = 0.0
+    car.rotate_speed = 200.0
+    car.friction = 2.0
+    car.acceleration = 1000.0
+    car.lap = 0
+    car.checkpoint_ok = True
+    car.last_map_position = (0, 0)
+
 def start_game():
     global game_mode
     game_mode = 1
+    for car in cars:
+        restart_car(car)
 
 def check_events(events):
     global game_mode
