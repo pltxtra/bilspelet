@@ -62,8 +62,10 @@ def restart_car(car):
     car.last_map_position = (0, 0)
 
 def start_game():
-    global game_mode
+    global game_mode, time_to_race, winner
     game_mode = 1
+    time_to_race = 3.0
+    winner = None
     for car in cars:
         restart_car(car)
 
@@ -176,7 +178,7 @@ def handle_simulation(car):
     update_car_position(car)
 
 def draw_main_game():
-    global winner, game_mode
+    global winner, game_mode, start_timer
     offset = 0
     for car in cars:
         handle_car_events(car, events)
@@ -188,6 +190,7 @@ def draw_main_game():
         if car.lap > max_lap:
             winner = car
             game_mode = 2
+            start_timer = 5.0
 
     if winner:
         for car in cars:
@@ -213,7 +216,11 @@ def draw_countdown():
         game_mode = 0
 
 def draw_winner():
-    global game_mode
+    global game_mode, start_timer
+
+    if start_timer < 0.0:
+        game_mode = 3
+    start_timer -= delta_time
 
     offset = 0
     for car in cars:
