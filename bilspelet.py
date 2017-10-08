@@ -152,6 +152,23 @@ def draw_text(car, offset):
                 (512 - text.get_width() // 2,
                  384 + text.get_height() * offset + 10 * offset))
 
+def handle_simulation(car):
+    update_car_direction(car)
+    update_car_map_position(car)
+    update_car_friction(car)
+    update_lap_position(car)
+    update_car_speed(car)
+    update_car_position(car)
+
+def draw_main_game():
+    offset = 0
+    for car in cars:
+        handle_car_events(car, events)
+        handle_simulation(car)
+        draw_car(car)
+        draw_text(car, offset)
+        offset += 1
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -194,17 +211,6 @@ while 1:
     screen.fill(black)
     draw_map()
 
-    offset = 0
-    for car in cars:
-        handle_car_events(car, events)
-        update_car_direction(car)
-        update_car_map_position(car)
-        update_car_friction(car)
-        update_lap_position(car)
-        update_car_speed(car)
-        update_car_position(car)
-        draw_car(car)
-        draw_text(car, offset)
-        offset += 1
+    draw_main_game()
 
     pygame.display.flip()
