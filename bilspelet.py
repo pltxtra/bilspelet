@@ -161,6 +161,7 @@ def handle_simulation(car):
     update_car_position(car)
 
 def draw_main_game():
+    global winner, game_mode
     offset = 0
     for car in cars:
         handle_car_events(car, events)
@@ -168,6 +169,16 @@ def draw_main_game():
         draw_car(car)
         draw_text(car, offset)
         offset += 1
+
+        if car.lap > max_lap:
+            winner = car
+            game_mode = 2
+
+    if winner:
+        for car in cars:
+            car.pedal_down = False
+            car.rotate_left = False
+            car.rotate_right = False
 
 def draw_countdown():
     global game_mode, time_to_race
@@ -185,6 +196,26 @@ def draw_countdown():
 
     if time_to_race <= 0.0:
         game_mode = 0
+
+def draw_winner():
+    global game_mode
+
+    offset = 0
+    for car in cars:
+        offset += 1
+        update_car_direction(car)
+        update_car_map_position(car)
+        update_car_friction(car)
+        update_lap_position(car)
+        update_car_speed(car)
+        update_car_position(car)
+        draw_car(car)
+
+        if car == winner:
+            text = font.render("Player {} won!".format(offset), True, (128, 128, 0))
+            screen.blit(text,
+                        (512 - text.get_width() // 2,
+                         384 - text.get_height()))
 
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -219,6 +250,7 @@ cars = [
 
 game_mode = 1
 time_to_race = 3.0
+winner = None
 
 while 1:
     this_time = pygame.time.get_ticks()
@@ -235,5 +267,7 @@ while 1:
         draw_main_game()
     elif game_mode == 1:
         draw_countdown()
+    elif game_mode == 2:
+        draw_winner()
 
     pygame.display.flip()
