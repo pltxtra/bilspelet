@@ -56,10 +56,18 @@ class Car:
         self.right_key = right_key
         (self.pic, self.rct) = load_car_picture(filename)
 
+def start_game():
+    global game_mode
+    game_mode = 1
+
 def check_events(events):
+    global game_mode
     for event in events:
         if event.type == pygame.QUIT:
             sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and game_mode == 3:
+                start_game()
 
 def handle_car_events(car, events):
     for event in events:
@@ -217,6 +225,23 @@ def draw_winner():
                         (512 - text.get_width() // 2,
                          384 - text.get_height()))
 
+def draw_start_screen():
+    global game_mode, time_to_race
+
+    for car in cars:
+        handle_simulation(car)
+        draw_car(car)
+
+    text = font.render("Press SPACE", True, (128, 128, 0))
+    screen.blit(text,
+                (512 - text.get_width() // 2,
+                 384 - text.get_height()))
+    text = font.render("to START!", True, (128, 128, 0))
+    screen.blit(text,
+                (512 - text.get_width() // 2,
+                 384))
+
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -248,7 +273,7 @@ cars = [
     Car("car_2.png", (6, 9), pygame.K_LCTRL, pygame.K_q, pygame.K_e),
     ]
 
-game_mode = 1
+game_mode = 3
 time_to_race = 3.0
 winner = None
 
@@ -269,5 +294,7 @@ while 1:
         draw_countdown()
     elif game_mode == 2:
         draw_winner()
+    elif game_mode == 3:
+        draw_start_screen()
 
     pygame.display.flip()
