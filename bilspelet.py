@@ -169,6 +169,23 @@ def draw_main_game():
         draw_text(car, offset)
         offset += 1
 
+def draw_countdown():
+    global game_mode, time_to_race
+
+    for car in cars:
+        handle_simulation(car)
+        draw_car(car)
+
+    time_to_race -= delta_time
+
+    text = font.render("Start in {}...".format(int(time_to_race) + 1), True, (128, 128, 0))
+    screen.blit(text,
+                (512 - text.get_width() // 2,
+                 384 - text.get_height()))
+
+    if time_to_race <= 0.0:
+        game_mode = 0
+
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -200,7 +217,8 @@ cars = [
     Car("car_2.png", (6, 9), pygame.K_LCTRL, pygame.K_q, pygame.K_e),
     ]
 
-game_mode = 0
+game_mode = 1
+time_to_race = 3.0
 
 while 1:
     this_time = pygame.time.get_ticks()
@@ -215,5 +233,7 @@ while 1:
 
     if game_mode == 0:
         draw_main_game()
+    elif game_mode == 1:
+        draw_countdown()
 
     pygame.display.flip()
