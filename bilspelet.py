@@ -148,11 +148,11 @@ def draw_car(car):
     rect.center = car.position
     screen.blit(car.pic[picture_index], rect)
 
-def draw_text(car):
+def draw_text(car, offset):
     text = font.render("Lap {} / {}".format(car.lap, max_lap), True, (128, 128, 0))
     screen.blit(text,
                 (512 - text.get_width() // 2,
-                 384 - text.get_height()))
+                 384 + text.get_height() * offset + 10 * offset))
 
 map = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -195,6 +195,7 @@ while 1:
     screen.fill(black)
     draw_map()
 
+    offset = 0
     for car in cars:
         update_car_direction(car)
         update_car_map_position(car)
@@ -203,6 +204,7 @@ while 1:
         update_car_speed(car)
         update_car_position(car)
         draw_car(car)
-        draw_text(car)
+        draw_text(car, offset)
+        offset += 1
 
     pygame.display.flip()
