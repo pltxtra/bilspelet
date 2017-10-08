@@ -200,6 +200,8 @@ cars = [
     Car("car_2.png", (6, 9), pygame.K_LCTRL, pygame.K_q, pygame.K_e),
     ]
 
+game_mode = 0
+
 while 1:
     this_time = pygame.time.get_ticks()
     delta_time = (this_time - last_time) / 1000.0
@@ -211,6 +213,7 @@ while 1:
     screen.fill(black)
     draw_map()
 
-    draw_main_game()
+    if game_mode == 0:
+        draw_main_game()
 
     pygame.display.flip()
