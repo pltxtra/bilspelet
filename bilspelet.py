@@ -6,7 +6,8 @@ font = pygame.font.Font(None, 72)
 size = width, height = 1024, 768
 black = 0, 0, 0
 
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+pygame.mouse.set_visible(False)
 
 small_map_pieces = [
     pygame.image.load("black.png"),
@@ -78,6 +79,8 @@ def check_events(events):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and game_mode == 3:
                 start_game()
+            elif event.key == pygame.K_ESCAPE:
+                sys.exit()
 
 def handle_car_events(car, events):
     for event in events:
