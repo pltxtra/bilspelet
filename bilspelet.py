@@ -62,9 +62,10 @@ def restart_car(car):
     car.last_map_position = (0, 0)
 
 def start_game():
-    global game_mode, time_to_race, winner
+    global game_mode, time_to_race, winner, game_time
     game_mode = 1
     time_to_race = 3.0
+    game_time = 0.0
     winner = None
     for car in cars:
         restart_car(car)
@@ -178,8 +179,9 @@ def handle_simulation(car):
     update_car_position(car)
 
 def draw_main_game():
-    global winner, game_mode, start_timer
+    global winner, game_mode, start_timer, game_time
     offset = 0
+    game_time += delta_time
     for car in cars:
         handle_car_events(car, events)
         handle_simulation(car)
@@ -197,6 +199,12 @@ def draw_main_game():
             car.pedal_down = False
             car.rotate_left = False
             car.rotate_right = False
+
+    text = font.render("{:.2f}s".format(game_time), True, (128, 128, 0))
+    screen.blit(text,
+                (512,
+                 384 - text.get_height()))
+
 
 def draw_countdown():
     global game_mode, time_to_race
